@@ -2,22 +2,21 @@
  * AUTHOR: Rafael Bezerra (https://github.com/rnbez)
  */
 
-#define LIGHT_PIN 13
+#define LIGHT_PIN 3
 #define PIR_SENSOR 2
 #define STAY_ON_DELAY 10000
+#define PIR_READ_DELAY 1000
 
-int pirState = LOW; // we start, assuming no motion detected
-// int hasMovement = 0; // variable for reading the pin status
-
-// Variables will change:
 int lightState = LOW;
-int ledState = LOW;               // ledState used to set the LED
+unsigned long lastPIRRead = 0;
 unsigned long previousMillis = 0; // will store last time LED was updated
-unsigned long interval = 1000;
 
 bool hasMovement()
 {
   int _read = digitalRead(PIR_SENSOR);
+  lastPIRRead = millis();
+  Serial.print("Sensor read: ");
+  Serial.println(_read);
   return (_read == HIGH);
 }
 
@@ -40,14 +39,13 @@ void setup()
 
 void loop()
 {
-  unsigned long currentMillis = millis();
-
   if (lightState == HIGH)
   {
-    if (currentMillis - previousMillis > STAY_ON_DELAY)
+    unsigned long now = millis();
+    if (now - previousMillis > STAY_ON_DELAY)
     {
       // save the last time you blinked the LED
-      previousMillis = currentMillis;
+      previousMillis = now;
 
       if (!hasMovement())
       {
@@ -57,13 +55,16 @@ void loop()
   }
   else
   {
-    if (hasMovement())
+    if (millis() - lastPIRRead > PIR_READ_DELAY)
     {
-      lightState = HIGH;
-    }
-    else
-    {
-      lightState = LOW;
+      if (hasMovement())
+      {
+        lightState = HIGH;
+      }
+      else
+      {
+        lightState = LOW;
+      }
     }
   }
 

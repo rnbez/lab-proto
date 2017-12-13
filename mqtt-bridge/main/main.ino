@@ -21,8 +21,8 @@
 
 /************************* WiFi Access Point *********************************/
 
-#define WLAN_SSID       "LedZeppelin"
-#define WLAN_PASS       "w2r4y6i8"
+#define WLAN_SSID       "RNBEZ"
+#define WLAN_PASS       "1234567890"
 
 /************************* Adafruit.io Setup *********************************/
 
@@ -33,9 +33,9 @@
 
 /************************* HW SETUP *********************************/
 
-#define LED_BUILTIN 2
-#define LIGHT_READ 5
-#define LIGHT_WRITE 6
+#define STATUS_LED 2
+#define LIGHT_READ 4
+#define LIGHT_WRITE 0
 
 /************ Global State (you don't need to change this!) ******************/
 
@@ -66,29 +66,10 @@ void onoffcallback(uint32_t val) {
   Serial.print("Hey we're in a slider callback, the slider value is: ");
   Serial.println(val);
   if (val == 1) {
-    light_status = LOW;
-  } else {
     light_status = HIGH;
+  } else {
+    light_status = LOW;
   }
-}
-
-void flashStartup() {
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(250);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(250);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(250);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(250);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(250);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(250);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(250);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(250);
 }
 
 void setup() {
@@ -115,12 +96,12 @@ void setup() {
   // Setup MQTT subscription for onoff feed.
   onoffbutton.setCallback(onoffcallback);
   mqtt.subscribe(&onoffbutton);
-
+  Serial.println("Setting up pins...");
   pinMode(LIGHT_READ, INPUT);
   pinMode(LIGHT_WRITE, OUTPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
-  flashStartup();
-  digitalWrite(LED_BUILTIN, HIGH);
+  pinMode(STATUS_LED, OUTPUT);
+  digitalWrite(STATUS_LED, HIGH);
+  Serial.println("Finishing setup...");
 }
 
 uint32_t x=0;
@@ -135,7 +116,7 @@ void loop() {
   // try to spend your time here:
   mqtt.processPackets(5000);
 
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(STATUS_LED, LOW);
   digitalWrite(LIGHT_WRITE, light_status);
   int light_read = digitalRead(LIGHT_READ);
 
@@ -179,5 +160,5 @@ void MQTT_connect() {
        }
   }
   Serial.println("MQTT Connected!");
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(STATUS_LED, LOW);
 }

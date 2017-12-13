@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:nano",
-    "port": "/dev/cu.wchusbserial1420",
+    "port": "/dev/cu.wchusbserial1410",
     "output": "../build",
     "sketch": "main/main.ino",
     "configuration": "cpu=atmega168"

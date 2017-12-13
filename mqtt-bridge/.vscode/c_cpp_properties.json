@@ -3,12 +3,14 @@
         {
             "name": "Mac",
             "includePath": [
-                "/Users/rnbez/Library/Arduino15/packages/arduino/hardware/avr/1.6.20/cores/arduino"
+                "/Users/rnbez/Library/Arduino15/packages/esp8266/hardware/esp8266/2.3.0/cores/esp8266",
+                "/Users/rnbez/Documents/Arduino/libraries/Adafruit_MQTT_Library"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "/Users/rnbez/Library/Arduino15/packages/arduino/hardware/avr/1.6.20/cores/arduino"
+                    "/Users/rnbez/Library/Arduino15/packages/esp8266/hardware/esp8266/2.3.0/cores/esp8266",
+                    "/Users/rnbez/Documents/Arduino/libraries/Adafruit_MQTT_Library"
                 ]
             },
             "intelliSenseMode": "clang-x64",

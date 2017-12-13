@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "light-controller"
+		},
+		{
+			"path": "mqtt-bridge"
+		}
+	],
+	"settings": {}
+}
